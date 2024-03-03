@@ -1,0 +1,20 @@
+{
+    "Cart.title" : "Carts",
+    "Cart.actions" : "Actions",
+    "Cart.noResults" : "No Results",
+    "cart.title" : "Cart",
+    "cart.state" : "Cart state",
+    "Cart.subtitle" : "List of all carts from selected customer",
+    "cart.back": "Back",
+    "deleteAsset.title": "Are you sure you want to delete this cart?",
+    "cart.lineItems": "Carts List",
+    "lineItem.previous": "Cart Details",
+    "lineItem.back": "Back",
+    "lineItem.title": "Line Item Modification",
+    "lineItem.delete": "Delete Line Item",
+    "updateAsset.title" : "You are about to delete a cart, please confirm",
+    "freezeAsset.title": "You are about to freeze a cart, please confirm",
+    "unfreezeAsset.title": "You are about to unfreeze a cart, please confirm",
+    "nofreezepossible.title": "Freezing cart not possible - cart must be in an Active state!",
+    "nounfreezepossible.title": "Only cart in Frozen state can be unfrozen!"
+}
