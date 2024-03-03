@@ -11,7 +11,7 @@ const config = {
     },
     production: {
       customViewId: 'cltb6z38p0001kdlkve52rzok',
-      url: 'https://my-custom-view.com',
+      url: 'https://cart-manager-view.netlify.app',
     },
   },
   oAuthScopes: {
