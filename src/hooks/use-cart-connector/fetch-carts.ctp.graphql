@@ -26,6 +26,29 @@ query FetchCarts($where: String!, $sort: [String!]) {
         }
         quantity
       }
+      customLineItems {
+        id
+        nameAllLocales {
+          locale
+          value
+        }
+        totalPrice {
+            currencyCode
+            centAmount
+            fractionDigits
+        }
+        quantity
+        slug
+        custom{
+          type{
+            id
+          }
+				customFieldsRaw{
+          name
+          value
+        }
+        }
+      }
       shippingAddress {
         firstName
         lastName

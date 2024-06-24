@@ -24,7 +24,7 @@ import Constraints from '@commercetools-uikit/constraints';
 import { WarningIcon } from '@commercetools-uikit/icons';
 import Stamp from '@commercetools-uikit/stamp';
 import CheckboxInput from '@commercetools-uikit/checkbox-input';
-
+import { ContentNotification } from '@commercetools-uikit/notifications';
 
 import {
   formatLocalizedString,
@@ -47,6 +47,10 @@ const Cart = ({ onClose, cart }) => {
 
   const formModalState = useModalState();
   const isCartAcvite = cart.cartState === "Active" ? true : false;
+  const hasCustomLineItems = cart.customLineItems?.length > 0;
+
+  console.warn("hasCustomLineItems: " +hasCustomLineItems)
+  console.warn("cart.customLineItems: " + JSON.stringify(cart))
 
 
   const handleClose = () => {
@@ -69,6 +73,14 @@ const Cart = ({ onClose, cart }) => {
   const columns = [
     { key: 'product', label: 'Product' },
     { key: 'sku', label: 'SKU' },
+    { key: 'qty', label: 'Quantity' },
+    { key: 'total', label: 'Total' },
+
+  ];
+
+  const columnsCustom = [
+    { key: 'product', label: 'Product' },
+    { key: 'slug', label: 'Slug' },
     { key: 'qty', label: 'Quantity' },
     { key: 'total', label: 'Total' },
 
@@ -103,6 +115,39 @@ const Cart = ({ onClose, cart }) => {
         return item.quantity;
       case 'total':
         return formatMoney(item.price.value, intl);
+      default:
+        return null;
+    }
+  };
+
+
+  const itemRendererCustom = (
+    item, column
+  ) => {
+    switch (column.key) {
+      case 'product':
+        //return item.nameAllLocales[0].value;
+
+        return formatLocalizedString(
+          {
+            name: transformLocalizedFieldToLocalizedString(
+              item.nameAllLocales ?? []
+            ),
+          },
+          {
+            key: 'name',
+            locale: dataLocale,
+            fallbackOrder: projectLanguages,
+            fallback: NO_VALUE_FALLBACK,
+          }
+        );
+
+      case 'slug':
+        return item.slug;
+      case 'qty':
+        return item.quantity;
+      case 'total':
+        return formatMoney(item.totalPrice, intl);
       default:
         return null;
     }
@@ -158,6 +203,15 @@ const Cart = ({ onClose, cart }) => {
           </Card>
         </Grid.Item>
 
+        {/* <Grid.Item>
+          <Card type="flat" insetScale="s">
+
+          <TextField title="Custom Line Items" horizontalConstraint={6} isReadOnly={true} value={hasCustomLineItems} hint="No custom line items" hintIcon={<WarningIcon color="primary" />}  onChange={(event) => alert(event)} />
+           
+          
+          
+          </Card>
+        </Grid.Item> */}
 
       </Grid>
 
@@ -189,7 +243,7 @@ const Cart = ({ onClose, cart }) => {
             </Spacings.Stack>
             
 
-          {/* <Spacings.Stack scale="l" alignItems="stretch"> */}
+
           <Constraints.Horizontal max="scale">
               <DataTable
                 
@@ -199,9 +253,38 @@ const Cart = ({ onClose, cart }) => {
                 onRowClick={(item) => onOpenLineItem(item)}
               />
              </Constraints.Horizontal> 
-          {/* </Spacings.Stack> */}
+
+             
+         
+
+        </CollapsiblePanel>
+
+
+       
+      {hasCustomLineItems? 
+        <CollapsiblePanel
+          header={
+            <CollapsiblePanel.Header>
+              Custom Line Items
+            </CollapsiblePanel.Header>
+          }>
+
+         
+             <Constraints.Horizontal max="scale">
+              <DataTable
+                
+                columns={columnsCustom}
+                rows={cart.customLineItems}
+                itemRenderer={itemRendererCustom}
+                onRowClick={(item) => onOpenLineItem(item)}
+              />
+             </Constraints.Horizontal> 
+           
            
         </CollapsiblePanel>
+        :  
+        <br></br>
+        }
 
 
         <Spacings.Stack scale="s">
