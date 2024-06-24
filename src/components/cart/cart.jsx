@@ -31,6 +31,7 @@ import {
   transformLocalizedFieldToLocalizedString,
 } from '@commercetools-frontend/l10n';
 import LineItem from '../lineItem/lineItem';
+import LineItemCustom from '../customLineItem/lineItemCustom';
 
 
 const Cart = ({ onClose, cart }) => {
@@ -39,6 +40,7 @@ const Cart = ({ onClose, cart }) => {
   const [selectedItem, setSelectedItem] = useState([]);
 
   const [isLineItemViewOpen, setIsLineItemViewOpen] = useState(false);
+  const [isCustomLineItemViewOpen, setIsCustomLineItemViewOpen] = useState(false);
 
   const { dataLocale, projectLanguages } = useApplicationContext((context) => ({
     dataLocale: context.dataLocale,
@@ -60,6 +62,11 @@ const Cart = ({ onClose, cart }) => {
 
   const onOpenLineItem = (lineItem) => {
     setIsLineItemViewOpen(true);
+    setSelectedItem(lineItem);
+  };
+
+  const onOpenCustomLineItem = (lineItem) => {
+    setIsCustomLineItemViewOpen(true);
     setSelectedItem(lineItem);
   };
 
@@ -276,7 +283,7 @@ const Cart = ({ onClose, cart }) => {
                 columns={columnsCustom}
                 rows={cart.customLineItems}
                 itemRenderer={itemRendererCustom}
-                onRowClick={(item) => onOpenLineItem(item)}
+                onRowClick={(item) => onOpenCustomLineItem(item)}
               />
              </Constraints.Horizontal> 
            
@@ -293,6 +300,13 @@ const Cart = ({ onClose, cart }) => {
             <LineItem
               lineItem={selectedItem}
               onClose={() => setIsLineItemViewOpen(false)}
+            />
+           )}
+
+          {isCustomLineItemViewOpen && (
+            <LineItemCustom
+              lineItem={selectedItem}
+              onClose={() => setIsCustomLineItemViewOpen(false)}
             />
            )}
 
